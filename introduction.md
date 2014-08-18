@@ -1,0 +1,65 @@
+Agile Infrastructure Web Hosting
+================================
+
+A new architecture is being set up to aid service-owners in migrating their
+code to the new Agile Infrastructure at CERN. One of the major goals of the
+"Agile" infrastructure is to migrate to full configuration management, and
+leverage this effort to achieve reproducibility and consistency.
+
+Introduction
+------------
+
+The idea is to factor the common configuration out of different services and
+provide a base platform that has most of what a service provider needs to get
+started.
+
+In order to accomplish the above goals, the deployment procedure for your code
+will have to be come more formalized. This means that the code of your
+application will have 
+
+Architecture Overview
+~~~~~~~~~~~~~~~~~~~~~
+
+There will be one or more ATLAS web redirectors acting as proxies to a backend,
+where your application will live. The proxy will be configured with CERN
+Single-Sign-On (SSO) authentication, meaning that your application will not
+have to worry about authentication if you are willing to allow people with a
+valid CERN account access it. If your needs are more complicated than that
+there are methods available, discussed below in the Authentication section.
+
+
+Architecture Detail
+~~~~~~~~~~~~~~~~~~~
+
+Each service will be allocated three backend machines -- a development
+instance, a testing and integration instance, and a production instance. There
+will be three URLs on the proxy pointing to these backends,
+<servicename>-dev.cern.ch, <servicename>-test.cern.ch, and the production one,
+just <servicename>.cern.ch.
+
+Q:: won't this mean that my service will need to be URL-agnostic
+	A: yes, it will. All internal links should not include the full URL of your application. Obviously, external links need to and this is OK.
+
+You will have full access--including sudo/root access--to the development
+instance. The machine will be puppet-configured to start but configuration
+management will then be turned off and you can make any necessary changes. On
+the integration / test instance you will be able to log in and make changes but
+puppet will be running and hopefully your application will mostly be
+automatically-deployable. This is exactly what is needed. 
+
+The idea is to proceed in the migration as follows:
+
+. Log into the development instance ( and make your application work behind the web redirector.
+.. Keep notes of what configuration was done, i.e. which packages were installed, what apache configuration was done, etc...
+. Enable your code to be deployed automatically, via one of the supported deployment methods (see LINK) (rpm, git, link, etc..)
+. Send a summary of the steps needed to deploy your application to the contact coordinating this migration. They will put your configuration into puppet as much as is possible. On the test / integration instance your application will be deployed via the automatic method chosen above. The configuration will be tested and once it is working you proceed to the production instance. You will have access to this machine to help fix and debug issues with the automatic deployment.
+. Apply the correct configuration management template to the production instance. Your application should be deployed correctly, and once we verify that it is so, we will switch the DNS name of the production service to be an alias to the proxy and you are done!
+
+
+
+Technical Information for Service Maintainers
+---------------------------------------------
+
+The IP addresses of each instance will be CNAME aliases that map to the
+web-redirector. The redirector will run apache with a virtual host for your
+application. 
