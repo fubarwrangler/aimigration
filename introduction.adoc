@@ -14,8 +14,10 @@ provide a base platform that has most of what a service provider needs to get
 started.
 
 In order to accomplish the above goals, the deployment procedure for your code
-will have to be come more formalized. This means that the code of your
-application will have
+will have to be come more formalized. This means that your application's
+development model will have to become stricter. There will be several deployment
+methods available, from RPM packages to a git-based deployment model (see LINK
+for more details)
 
 Architecture Overview
 ~~~~~~~~~~~~~~~~~~~~~
@@ -74,5 +76,28 @@ Technical Information for Service Maintainers
 ---------------------------------------------
 
 The IP addresses of each instance will be CNAME aliases that map to the
-web-redirector. The redirector will run apache with a virtual host for your
-application.
+web-redirector. The redirector will run apache with a virtual host for each
+instance of your application.  The backend will run a firewall that will
+restrict requests on web-ports to the redirector so no direct access will be
+possible.
+
+
+Authentication
+~~~~~~~~~~~~~~
+
+CERN's Shibboleth (SSO) instance will authenticate on the proxy and pass the
+username and group-list to the backend via some HTTP headers, thus allowing
+your application to do finer-grained access control if you so desire.
+
+The variables that will be passed to the backends are listed below
+
+CERN-USER::
+	The username that the person logged into SSO with
+CERN-EGROUPS::
+	A semicolon-separated list of EGroups that the user is a member of.
+CERN-FULLNAME::
+	The user's full name as registered with at CERN.
+CERN-EMAIL::
+	The user's email address
+
+This is rediculous
