@@ -39,7 +39,7 @@ will be three URLs on the proxy pointing to these backends,
 <servicename>-dev.cern.ch, <servicename>-test.cern.ch, and the production one,
 just <servicename>.cern.ch.
 
-Q:: won't this mean that my service will need to be URL-agnostic
+Q: won't this mean that my service will need to be URL-agnostic?::
 	Yes, it will. All internal links should not include the full URL of your
 	application. Obviously, external links need to and this is OK.
 
@@ -58,9 +58,12 @@ The idea is to proceed in the migration as follows:
 	installed, what apache configuration was done, etc...
 . Enable your code to be deployed automatically, via one of the supported
 	deployment methods (see LINK) (rpm, git, link, etc..)
+.. This will consist of either building an RPM package, placing your code into
+	git, or some other method.
 . Send a summary of the steps needed to deploy your application to the contact
 	coordinating this migration. They will put your configuration into puppet
-	as much as is possible. On the test / integration instance your application
+	as much as is possible.
+.. On the test / integration instance your application
 	will be deployed via the automatic method chosen above. The configuration
 	will be tested and once it is working you proceed to the production
 	instance. You will have access to this machine to help fix and debug issues
@@ -91,13 +94,43 @@ your application to do finer-grained access control if you so desire.
 
 The variables that will be passed to the backends are listed below
 
-CERN-USER::
+HTTP_CERN_USER::
 	The username that the person logged into SSO with
-CERN-EGROUPS::
+HTTP_CERN_EGROUPS::
 	A semicolon-separated list of EGroups that the user is a member of.
-CERN-FULLNAME::
+HTTP_CERN_FULLNAME::
 	The user's full name as registered with at CERN.
-CERN-EMAIL::
+HTTP_CERN_EMAIL::
 	The user's email address
 
-This is rediculous
+In your CGI script you can access these variables in the environment, just like
+you would *REMOTE_USER* or any other standard variable. The *HTTP_CERN_EGROUPS*
+variable is a large, semicolon-delineated list of EGroups the user belongs to,
+like this for example:
+
+-----
+Domain Users; Twiki Atlas web ;ca-allowed-user-certificate;atlas-dev-gen;
+NICE Profile Redirection;CMF_NSC_863 Users;ph-dep-all;
+ca-allowed-user-certificate-mp;NICE Enforce Password-protected Screensaver;
+NICE CERN CA Use WebService;users-northamerica;atlas-computing;
+Twiki Users;atlas-readaccess-main;it-service-backup-tsm512;
+CERNTS-cerntscms-users;Users Other;atlas-adc-central-services;
+hostel-notcernmembers;VOBox-Admins-ATLAS;young-at-CERN;CERN Users;zp;
+NICE CERN CA Create Host Certificates;all-users-at-cern;atlas-test-active-1;
+service-zephyr-messages;ggo-test;info-newphysics-workshop;all-cern-users;
+Users by Home CERNHOMEW;atlas-readaccess-active-members;
+it-dep-exp-meeting-members;atlas-adc-service-managers;castor-announce-atlas;
+it-mac-users;users-nms;atlas-adc-ddm-lxvoadm-admins; <etc, etc...>
+-----
+
+You can parse this in your script as follows (python example):
+
+----
+def in_egroup(group_name):
+    """ Return true if user is in EGroup named @group_name """
+
+    return group_name in os.environ['HTTP_CERN_USER'].split(';')
+
+----
+
+.
