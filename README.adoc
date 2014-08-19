@@ -8,6 +8,9 @@ code to the new Agile Infrastructure at CERN. One of the major goals of the
 "Agile" infrastructure is to migrate to full configuration management, and
 leverage this effort to achieve reproducibility and consistency.
 
+:toc:
+:toc-placement: preambe
+
 Introduction
 ------------
 

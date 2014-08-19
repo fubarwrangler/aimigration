@@ -4,7 +4,7 @@ OBJECTS := ${SOURCES:.adoc=.html}
 all: $(OBJECTS)
 
 %.html: %.adoc
-	asciidoc $^
+	asciidoc -a toc $^
 
 clean:
 	find . -type f -name '*.html' -delete
