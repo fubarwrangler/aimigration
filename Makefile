@@ -1,5 +1,5 @@
-SOURCES    := ${wildcard *.adoc}
-OBJECTS    := ${SOURCES:.adoc=.html}
+SOURCES := $(shell find . -type f -name '*.adoc')
+OBJECTS := ${SOURCES:.adoc=.html}
 
 all: $(OBJECTS)
 
@@ -7,6 +7,6 @@ all: $(OBJECTS)
 	asciidoc $^
 
 clean:
-	rm -f *.html
+	find . -type f -name '*.html' -delete
 
 .PHONY: all clean
