@@ -1,3 +1,5 @@
+ifdef::env-github[:outfilesuffix: .adoc]
+
 AI Web Git Deployment Method
 ============================
 
