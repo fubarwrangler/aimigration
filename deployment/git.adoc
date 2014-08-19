@@ -39,7 +39,9 @@ them something sane like _dev-deploy_, _test-deploy_, and _deploy_. Each remote
 only allows one branch called _master_, which you should create first.
 
 Work on your local master branch and when the time comes to deploy, create a
-remote and a tracking branch
+remote and a tracking branch for that remote for each instance you will be
+working on. Merge your changes into this branch then push it to it's remote and
+you're done!
 
 Limitations
 ~~~~~~~~~~~
@@ -47,3 +49,10 @@ Limitations
 Only one branch is allowed, called "master". This is because these instances
 should *not* be the main copy of your git repo, and furthermore, only one branch
 can exist checked out as the actual instance of your application.
+
+Non-fast-forward commits *are* allowed, so be careful, and don't _push -f_
+unless you really mean it!
+
+Example
+-------
+
