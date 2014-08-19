@@ -137,5 +137,5 @@ def in_egroup(group_name):
 Deployment Methods
 ------------------
 
-. <<git-deployment#,Git Deployment>>
-. <<rpm-deployment#,RPM Building>>
+. <<deployment/git#,Git Deployment>>
+. <<deployment/rpm#,RPM Building>>
