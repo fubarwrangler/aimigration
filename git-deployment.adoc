@@ -1,0 +1,34 @@
+AI Web Git Deployment Method
+============================
+
+One of the supported methods for deploying your code onto the Agile
+Infrastructure is to set up a Git instance on the webserver and push to that
+instance. There is a hook that runs when this instance receives a git push that
+deploys/updates the content of the git repository into a folder that is apache's
+document-root. This way updating the website code integrates almost trivially
+into a git workflow, and it is also the simplest and most flexible method of
+doing deployment in a repeatable and controlled manner.
+
+Git Remote
+----------
+
+Each instance (dev, test, production) will have have a path (https://<url>/git/)
+that is the git remote you can push to.
+
+Limitations
+~~~~~~~~~~~
+
+Only one branch is allowed, called "master". This is because these instances
+should *not* be the main copy of your git repo. If they crash then you'll have
+lost the remote. This branch can be created but not removed.
+
+
+How To
+------
+
+Assumptions::
+. Your code is in a git repository on your local development machine
+. You have a version of git >= 1.7.2
+. There may (should) be a remote known as "origin" that you develop with
+
+In this case

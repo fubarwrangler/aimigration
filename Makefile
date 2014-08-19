@@ -1,4 +1,7 @@
-all: introduction.html
+SOURCES    := ${wildcard *.adoc}
+OBJECTS    := ${SOURCES:.adoc=.html}
+
+all: $(OBJECTS)
 
 %.html: %.adoc
 	asciidoc $^
