@@ -41,7 +41,8 @@ will be three URLs on the proxy pointing to these backends,
 <servicename>-dev.cern.ch, <servicename>-test.cern.ch, and the production one,
 just <servicename>.cern.ch.
 
-Q: won't this mean that my service will need to be URL-agnostic?::
+[qanda]
+Won't this mean that my service will need to be URL-agnostic?::
 	Yes, it will. All internal links should not include the full URL of your
 	application. Obviously, external links need to and this is OK.
 
@@ -54,22 +55,28 @@ automatically-deployable. This is exactly what is needed.
 
 The idea is to proceed in the migration as follows:
 
-. Log into the development instance ( and make your application work behind the
+. Log into the development instance and make your application work behind the
 	web redirector.
-.. Keep notes of what configuration was done, i.e. which packages were
-	installed, what apache configuration was done, etc...
++
+	Keep notes of what configuration was done, i.e. which packages were
+	installed what apache configuration was done, etc...
+
 . Enable your code to be deployed automatically, via one of the supported
 	deployment methods (see LINK) (rpm, git, link, etc..)
-.. This will consist of either building an RPM package, placing your code into
++
+	This will consist of either building an RPM package, placing your code into
 	git, or some other method.
+
 . Send a summary of the steps needed to deploy your application to the contact
 	coordinating this migration. They will put your configuration into puppet
 	as much as is possible.
-.. On the test / integration instance your application
++
+	On the test / integration instance your application
 	will be deployed via the automatic method chosen above. The configuration
 	will be tested and once it is working you proceed to the production
 	instance. You will have access to this machine to help fix and debug issues
 	with the automatic deployment.
+
 . Apply the correct configuration management template to the production
 	instance. Your application should be deployed correctly, and once we verify
 	that it is so, we will switch the DNS name of the production service to be
