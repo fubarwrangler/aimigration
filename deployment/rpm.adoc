@@ -1,0 +1,10 @@
+AI Web RPM Deployment
+=====================
+
+You can build an RPM of your source files and put it into a repository that
+Puppet will ensure the latest version is installed from.
+
+This means to update your website's code you just rebuild the RPM and place the
+packages in the repo.
+
+TODO: how, where, why?
