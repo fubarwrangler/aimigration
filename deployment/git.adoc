@@ -31,7 +31,8 @@ Assumptions::
 . You are familiar with basic concepts of git, specifically _branches_ and
   _remotes_
 . Your code is in a git repository on your local development machine
-. You have a version of git >= 1.7.2
+. You have a version of git >= '1.7.2' (or have > '1.6.5' but < '1.7.2' and
+have read <<oldversion,this>>).
 . There may (should) be a remote known as "origin" that you develop with
 
 Each backend instance will serve as a different. I recommend naming
@@ -52,6 +53,14 @@ can exist checked out as the actual instance of your application.
 
 Non-fast-forward commits *are* allowed, so be careful, and don't _push -f_
 unless you really mean it!
+
+[[oldversion]]
+Old Git Version
+~~~~~~~~~~~~~~~
+
+Read this if you are stuck with git '1.7.1' (the unfortunate default on 'SLC6'
+and on *lxplus*)
+
 
 Example
 -------
