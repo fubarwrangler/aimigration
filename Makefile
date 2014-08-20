@@ -1,12 +1,19 @@
 SOURCES := $(shell find . -type f -name '*.adoc')
-OBJECTS := ${SOURCES:.adoc=.html}
+HTML:= ${SOURCES:.adoc=.html}
+MARKDOWN:= ${SOURCES:.adoc=.md}
 
-all: $(OBJECTS)
+all: $(HTML)
+
+markdown: $(MARKDOWN)
+
+%.md: %.html
+	pandoc -f html -t markdown -o $@ $<
 
 %.html: %.adoc
 	asciidoc -a toc $^
 
 clean:
 	find . -type f -name '*.html' -delete
+	find . -type f -name '*.md' -delete
 
 .PHONY: all clean
