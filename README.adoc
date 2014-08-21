@@ -32,8 +32,21 @@ development model will have to become stricter. There will be several deployment
 methods available, from RPM packages to a git-based deployment model (see LINK
 for more details)
 
-Architecture Overview
-~~~~~~~~~~~~~~~~~~~~~
+Broad Strategy
+~~~~~~~~~~~~~~
+
+In the broadest sense, the process of migrating to the AI will consist of four
+main steps.
+
+1. Define your service's dependencies and configuration requirements and
+communicate them to the person helping the migration.
+2. Work towards having the configuration management system provide everything
+you need to run your application -- this is an iterative process that will
+involve back-and-forth communication.
+3. Deploy your service for real and cut over the name from the old to the new.
+
+Architecture
+------------
 
 There will be one or more ATLAS web redirectors acting as proxies to a backend,
 where your application will live. The proxy will be configured with CERN
