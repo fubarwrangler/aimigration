@@ -123,10 +123,9 @@ HTTP_CERN_FULLNAME::
 HTTP_CERN_EMAIL::
 	The user's email address
 
-In your CGI script you can access these variables in the environment, just like
-you would *REMOTE_USER* or any other standard variable. The *HTTP_CERN_EGROUPS*
-variable is a large, semicolon-delineated list of EGroups the user belongs to,
-like this for example:
+The USER, FULLNAME, and EMAIL are what the user is registered as at CERN. The
+*HTTP_CERN_EGROUPS* variable is a large, semicolon-delineated list of EGroups
+the user belongs to, like this for example:
 
 -----
 Domain Users; Twiki Atlas web ;ca-allowed-user-certificate;atlas-dev-gen;
@@ -143,7 +142,14 @@ it-dep-exp-meeting-members;atlas-adc-service-managers;castor-announce-atlas;
 it-mac-users;users-nms;atlas-adc-ddm-lxvoadm-admins; <etc, etc...>
 -----
 
-You can parse this in your script as follows (python example):
+CGI Script
+^^^^^^^^^^
+
+In your CGI script you can access these variables in the environment, just like
+you would *REMOTE_USER* or any other standard variable.
+
+For example, you can parse the EGroup list from a CGI script as follows
+(python example):
 
 ----
 def in_egroup(group_name):
@@ -152,4 +158,20 @@ def in_egroup(group_name):
     return group_name in os.environ['HTTP_CERN_USER'].split(';')
 
 ----
+
+PHP Script
+^^^^^^^^^^
+
+These variables are available from a PHP webpage in the
+http://php.net/manual/en/reserved.variables.server.php[$_SERVER] variable in the
+top-scope of your PHP script.
+
+Here is a silly example of validating a user in PHP:
+
+-------
+if(strcmp("wstrecke", $_SERVER['HTTP_CERN_USER']) === 0) {
+        echo "<b> You are authenticated </b>";
+}
+-------
+
 
