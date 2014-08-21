@@ -11,6 +11,8 @@ document-root. This way updating the website code integrates almost trivially
 into a git workflow, and it is also the simplest and most flexible method of
 doing deployment in a repeatable and controlled manner.
 
+NOTE: If you are using SLC6 on LXPlus <<old-git-version,see here>>
+
 Git Deploy
 ----------
 
@@ -23,6 +25,10 @@ For example, if your application runs under apache and the documentroot lives in
 /var/www/myapp, then a git-push to the url https://<your-service>/git/ will
 populate the folder /var/www/myapp with the contents of the most recent git
 snapshot.
+
+The access to the git repository will only be granted to the service owner and
+anyone they designate (all need a CERN acct.). You will authenticate with your
+standard Username & Password at CERN
 
 Architecture
 ~~~~~~~~~~~~
@@ -60,7 +66,61 @@ Old Git Version
 Read this if you are stuck with git '1.7.1' (the unfortunate default on 'SLC6'
 and on *lxplus*)
 
+There are a few things to know when working from an older version of git. First
+and foremost is that you _need_ to put your username in the URL, before the host
+just like when using curl +<proto>://<user>:<password>@<host>/<url>+ where the
+password is optional. For example I would use: +https://willsk@example.cern.ch/git/
+repository+
+
+The second thing is that if you don't include your password in the URL, you need
+to either ensure you are logged in with X-forwarding, or you need to run +unset
+SSH_ASKPASS+ (or your favorite shell's equivalent) to ensure you don't get an X
+window popup to ask for your password.
+
+In summary:
+
+. Encode username in URL prior to the hostname separated by an '@' sign
+. Be prepared for an X window popup or unset the environment variable +
+SSH_ASKPASS+
+
 
 Example
 -------
 
+The following is an example of a very simple work flow where you simply push
+your main working branch to a new remote
+
+---------
+$ whoami
+wstrecke
+$ git clone https://git.cern.ch<whereever>/your-project
+...
+$ cd your-project/
+
+/* make changes to your main branch -- we'll call it 'main' to differentiate it
+ * from the 'master' branch on the deployment servers, but it is likely called
+ * master
+ */
+$ ...work...
+
+$ git status
+On branch main
+...
+
+/* Be sure to include username if using an older git version */
+$ git remote add dev-deploy https://wstrecke@example-dev.cern.ch/git/exampleservice/
+
+/* Nothing happens here if first time, just checking connectivity / access */
+$ git fetch dev-deploy
+
+/* publish <your-branch>:<their-branch>, if first time it will be created */
+$ git push dev-deploy main:master
+...
+ * [new branch]      main -> master
+
+/* follow same steps for test instance and production instances, changing URL
+ * and remote name as appropriate
+ */
+$ ...keep working...
+
+---------
