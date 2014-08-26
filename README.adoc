@@ -53,8 +53,12 @@ There will be one or more ATLAS web redirectors acting as proxies to a backend,
 where your application will live. The proxy will be configured with CERN
 Single-Sign-On (SSO) authentication, meaning that your application will not
 have to worry about authentication if you are willing to allow people with a
-valid CERN account access it. If your needs are more complicated than that
-there are methods available, discussed below in the Authentication section.
+valid CERN account access it.
+
+image:pics/architecture.png[Redirector Architecture]
+
+If your needs are more complicated than that there are methods available,
+discussed below in the Authentication section.
 
 
 Architecture Detail
