@@ -9,4 +9,27 @@ Puppet will ensure the latest version is installed from.
 This means to update your website's code you just rebuild the RPM and place the
 packages in the repo.
 
-TODO: how, where, why?
+Dependencies
+------------
+
+If you build an RPM you can specify any dependent packages and as long as they
+are placed in the repository they will be installed when your service is.
+
+
+Requirements
+------------
+
+Your RPM _must_ conform to http://fedoraproject.org/wiki/Packaging:Guidelines[
+RedHat's packaging guidelines]
+
+Your application should be self-contained, in other words, with the exception of
+configuration files, it should exist under one directory. Your RPM can place the
+application anywhere that isn't a folder already controlled by another RPM --
+the docroot for your webapp can be made any folder. (for example, '/var/www/
+html' is a *bad* place since it is already owned by the 'httpd' package)
+
+
+How To
+------
+
+TODO...

@@ -1,18 +1,16 @@
 Rationale
 =========
 
-Why this architecture? Why configuration management? What is it worth to me as a
-service owner? -- Here I will try to provide some answers to these questions.
+We hope to answer some of the following questions: Why this architecture? Why
+configuration management? What is it worth to me as a service owner?
 
 Goals
 -----
 
 The whole idea is to make deployment of the service as easy and hands-off as
 possible. We can leverage the required migration to the Agile Infrastructure to
-help achieve this. We want to be able to make the deployment (and therefore the
-recovery if something goes wrong) as automated as it can be.
+help achieve this.
 
-How? Read on...
 
 Methods
 -------
@@ -21,6 +19,13 @@ In an ideal world deploying a service would be as simple as installing a
 package, it would bring along with it all of its dependencies and configuration.
 This, however, is not a practical goal for many smaller software packages. The
 next best thing is to help define these dependencies in a semi-formal way, which
-conveniently can be configuration management (like Puppet) templates.
+conveniently can be done with configuration management (like Puppet) templates.
 
+In order to make the deployment (and therefore the recovery if something goes
+wrong) as automated as it can be, we will need a full description of your
+service and its requirements, which we can then translate, as much as is
+possible, into configuration management templates that provide these
+automatically.
+
+The process will be iterative, and will start by providing you
 

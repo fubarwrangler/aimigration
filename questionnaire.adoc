@@ -1,0 +1,42 @@
+Service Description
+-------------------
+
+Please answer the following questions regarding your service
+
+Web Configuration
+~~~~~~~~~~~~~~~~~
+
+. Does your service run under apache?
+
+.. If yes, where is the current service located (for apache-config reference)?
+
+. Your service will sit behind a proxy that can provide single-sign-on
+  authentication from CERN. What kind of access-control does your service need?
+.. Is filtering based on EGroup and / or Username sufficient?
+.. Would you like to enable shibboleth SSO-auth for all or only part of your
+   service's namespace?
+
+Deployment
+~~~~~~~~~~
+
+. What method of deployment will you prefer (git, RPMS?)
+
+. Please list all packages this service will depend on, noting if they are
+  unavailable in the standard SLC 6 repositories
+
+. Are there any filesystem access requirements (AFS, CVMFS, etc...)?
+
+. Any other miscellaneous software requirements (keytabs, non-standard packages,
+  etc...)
+
+. What are the hardware requirements for your service
+
+.. Disk space
+
+Other
+~~~~~
+
+. Please mention anything else you may think important to know about your
+  service for the migration
+
+

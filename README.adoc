@@ -38,12 +38,13 @@ Broad Strategy
 In the broadest sense, the process of migrating to the AI will consist of four
 main steps.
 
-1. Define your service's dependencies and configuration requirements and
-communicate them to the person helping the migration.
-2. Work towards having the configuration management system provide everything
-you need to run your application -- this is an iterative process that will
-involve back-and-forth communication.
-3. Deploy your service for real and cut over the name from the old to the new.
+. Define your service's dependencies and configuration requirements and
+  communicate them to the person helping the migration (please see
+  link:questionnaire{outfilesuffix}[this questionnaire] to start)
+. Work towards having the configuration management system provide everything
+  you need to run your application -- this is an iterative process that will
+  involve back-and-forth communication.
+. Deploy your service for real and cut over the name from the old to the new.
 
 Architecture
 ------------
@@ -72,10 +73,16 @@ Won't this mean that my service will need to be URL-agnostic?::
 
 You will have full access--including sudo/root access--to the development
 instance. The machine will be puppet-configured to start but configuration
-management will then be turned off and you can make any necessary changes. On
-the integration / test instance you will be able to log in and make changes but
-puppet will be running and hopefully your application will mostly be
-automatically-deployable. This is exactly what is needed.
+management will then be turned off and you can make any necessary changes.
+
+Once your service is working on the new hardware, we can begin translating the
+dependencies into configuration management templates. Most configuration (apache
+configuration, necessary packages, filesystems, etc...) will be managed by
+puppet.
+
+On the integration / test instance you will be able to log in and make changes
+but puppet will be running and hopefully your application will mostly be
+
 
 The idea is to proceed in the migration as follows:
 
