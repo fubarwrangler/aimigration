@@ -2,7 +2,7 @@ SOURCES := $(shell find . -type f -name '*.adoc')
 HTML:= ${SOURCES:.adoc=.html}
 MARKDOWN:= ${SOURCES:.adoc=.md}
 
-all: $(HTML)
+all: $(HTML) pics
 
 markdown: $(MARKDOWN)
 
@@ -11,6 +11,9 @@ markdown: $(MARKDOWN)
 
 %.html: %.adoc
 	asciidoc -a toc $^
+
+pics:
+	$(MAKE) -C pics
 
 clean:
 	find . -type f -name '*.html' -delete
