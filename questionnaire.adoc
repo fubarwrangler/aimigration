@@ -29,14 +29,15 @@ Deployment
 . Any other miscellaneous software requirements (keytabs, non-standard packages,
   etc...)
 
-. What are the hardware requirements for your service
+. List the hardware requirements for your service
 
-.. Disk space
+.. CPUS / Memory?
+.. Disk space, any larger data filesystems / volumes neded?
 
 Other
 ~~~~~
 
 . Please mention anything else you may think important to know about your
-  service for the migration
+  service for the migration?
 
 
