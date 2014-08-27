@@ -69,7 +69,7 @@ and on *lxplus*)
 There are a few things to know when working from an older version of git. First
 and foremost is that you _need_ to put your username in the URL, before the host
 just like when using curl +<proto>://<user>:<password>@<host>/<url>+ where the
-password is optional. For example I would use:
+password is optional. For example I would use
 +https://wstrecke@example.cern.ch/git/+ as a repository URL.
 
 The second thing is that if you don't include your password in the URL, you need
