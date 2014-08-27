@@ -34,10 +34,15 @@ Deployment
 .. CPUS / Memory?
 .. Disk space, any larger data filesystems / volumes neded?
 
+Migration
+~~~~~~~~~
+
+. What needs to be done in order to migrate to the new service -- what is your
+  plan for migrating any necessary information (old application data or
+  local database state)?
+
 Other
 ~~~~~
 
 . Please mention anything else you may think important to know about your
   service for the migration?
-
-
