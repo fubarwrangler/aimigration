@@ -6,7 +6,8 @@ Agile Infrastructure Web Hosting
 A new architecture is being set up to aid service-owners in migrating their
 code to the new Agile Infrastructure at CERN. One of the major goals of the
 "Agile" infrastructure is to migrate to full configuration management, and
-leverage this effort to achieve reproducibility and consistency.
+leverage this effort to achieve reproducibility and consistency. There is also
+an upgrade to SLC 6.x implied in this migration.
 
 :toc:
 :toc-placement: preambe
