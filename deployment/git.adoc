@@ -124,3 +124,16 @@ $ git push dev-deploy main:master
 $ ...keep working...
 
 ---------
+
+If you have the code somewhere else and don't want to use git as part of the
+workflow at all, you can make a copy of the code somewhere, run +git init+, and
+then commit & push. Like the following example:
+
+-------
+$ cp -a ~/svn/your-app ~/gitapp
+$ cd ~/gitapp
+$ git init
+$ git add .
+$ git commit -m 'first commit'
+$ git push https://username@app-foo-dev.cern.ch/git/example/ master:master
+-------
