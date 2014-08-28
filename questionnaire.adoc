@@ -3,18 +3,26 @@ Service Description
 
 Please answer the following questions regarding your service
 
+. Who needs login access and who among them needs sudo access?
+
 Web Configuration
 ~~~~~~~~~~~~~~~~~
 
 . Does your service run under apache?
 
-.. If yes, where is the current service located (for apache-config reference)?
+** If yes, where is the current service located (for apache-config reference)?
 
 . Your service will sit behind a proxy that can provide single-sign-on
   authentication from CERN. What kind of access-control does your service need?
-.. Is filtering based on EGroup and / or Username sufficient?
-.. Would you like to enable shibboleth SSO-auth for all or only part of your
+** Is filtering based on EGroup and / or Username sufficient?
+** Would you like to enable shibboleth SSO-auth for all or only part of your
    service's namespace?
+
+. Does your service require other web-software to run aside from standard
+  apache / PHP (newer ruby/python versions or frameworks like Django / Flask
+  for example?)?
+** If so are the upstream packages usable or will you be distributing your own
+   versions of these?
 
 Deployment
 ~~~~~~~~~~
@@ -31,8 +39,8 @@ Deployment
 
 . List the hardware requirements for your service
 
-.. CPUS / Memory?
-.. Disk space, any larger data filesystems / volumes neded?
+** CPUS / Memory?
+** Disk space, any larger data filesystems / volumes neded?
 
 Migration
 ~~~~~~~~~
