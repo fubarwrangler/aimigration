@@ -42,6 +42,13 @@ methods available, from RPM packages to a git-based deployment model (see
 As much as is possible, you should try to use OS-provided versions of tools and
 frameworks to simplify the distribution and configuration of the service.
 
+Since the document-root of your application should be fully managed, please
+ensure that this is fully self-contained. Any state that your application needs
+to keep on the machine should be put somewhere outside the application code
+itself (this separation of code and data is general good practice anyway -- but
+here it becomes necessary). Places to store data or state can be created by
+puppet and left for your application to populate.
+
 Broad Strategy
 ~~~~~~~~~~~~~~
 
