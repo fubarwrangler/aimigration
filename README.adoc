@@ -40,7 +40,10 @@ methods available, from RPM packages to a git-based deployment model (see
 <<deployment-methods,Deployment Methods>> for more details)
 
 As much as is possible, you should try to use OS-provided versions of tools and
-frameworks to simplify the distribution and configuration of the service.
+frameworks to simplify the distribution and configuration of the service. If you
+need newer versions of tools or frameworks, please see to it that you ship these
+along with your application or provide a method of easily distributing them (
+updated RPMs for example).
 
 Since the document-root of your application should be fully managed, please
 ensure that this is fully self-contained. Any state that your application needs
