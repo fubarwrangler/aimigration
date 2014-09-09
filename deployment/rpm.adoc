@@ -25,11 +25,19 @@ RedHat's packaging guidelines]
 Your application should be self-contained, in other words, with the exception of
 configuration files, it should exist under one directory. Your RPM can place the
 application anywhere that isn't a folder already controlled by another RPM --
-the docroot for your webapp can be made any folder. (for example, '/var/www/
-html' is a *bad* place since it is already owned by the 'httpd' package)
+the docroot for your webapp can be made any folder (for example, '/var/www/
+html' is a *bad* place since it is already owned by the 'httpd' package, but for
+example '/var/www/foo' is fine)
 
 
 How To
 ------
 
-TODO...
+An RPM is built with the combination of a .spec-file and a tarball containing
+your code. https://fedoraproject.org/wiki/How_to_create_an_RPM_package[Here is
+some] documentation on how to create an RPM from scratch.
+
+Your RPM should be simple, basically a glorified-tarball--it shouldn't install
+any files outside of the documentroot of the website and it shouldn't have any
+pre- or post-scripts that do configuration. The only thing besides deploying the
+code that it should do is to specify any dependencies.
