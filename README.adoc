@@ -139,6 +139,20 @@ The idea is to proceed in the migration as follows:
 	an alias to the proxy and you are done!
 
 
+Because the deployment is to be automated, everything under the document-root
+should be static, no application state or data should be placed there.
+
+[qanda]
+Where do I put data my service creates?::
+	If your application needs to manage state, just simply use another directory
+	not directly under the docroot of the site. Let the person know where this data
+	is and how much data you expect to create and it can be incorporated into
+	the puppet templates.
+
+Due to the limited size of OpenStack images, storage requirements beyond a few
+gigabytes necessitate the creation of a separate data volume to be mounted on
+the machine where your service runs.
+
 
 Technical Information for Service Maintainers
 ---------------------------------------------
