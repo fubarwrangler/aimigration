@@ -234,3 +234,20 @@ if(strcmp("wstrecke", $_SERVER['HTTP_CERN_USER']) === 0) {
 -------
 
 
+Keytab Generation
+~~~~~~~~~~~~~~~~~
+
+Instructions on how to generate a keytab for an account and save it in a file:
+
+The following will generate a keytab for the wstrecke user:
+
+-----------
+
+$ ktutil
+addent -password -p wstrecke@CERN.ch -k 1 -e RC4-HMAC
+-- enter password for wstrecke --
+wkt wstrecke.keytab
+q
+
+-----------
+
