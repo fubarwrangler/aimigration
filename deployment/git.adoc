@@ -64,13 +64,18 @@ Old Git Version
 ~~~~~~~~~~~~~~~
 
 Read this if you are stuck with git '1.7.1' (the unfortunate default on 'SLC6'
-and on *lxplus*)
+and on *lxplus*) or are having issues
 
 There are a few things to know when working from an older version of git. First
 and foremost is that you _need_ to put your username in the URL, before the host
 just like when using curl +<proto>://<user>:<password>@<host>/<url>+ where the
 password is optional. For example I would use
 +https://wstrecke@example.cern.ch/git/+ as a repository URL.
+
+The second thing is that it appears that CERN certs are not trusted by
+lubcurl/nss/openssl by default. Have
+http://stackoverflow.com/a/11622001[a look here] for various ways to disable
+SSL Certificate checking in git.
 
 The second thing is that if you don't include your password in the URL, you need
 to either ensure you are logged in with X-forwarding, or you need to run +unset
@@ -80,9 +85,12 @@ window popup to ask for your password.
 In summary:
 
 . Encode username in URL prior to the hostname separated by an '@' sign
-. Be prepared for an X window popup or unset the environment variable +
-SSH_ASKPASS+
-
+. Be prepared for an X window popup or unset the environment variable
+  +SSH_ASKPASS+
+. Either trust CERN-signed certs, or tell git not to check cert-provenance via
+  either the environment variable +GIT_SSL_NO_VERIFY+, or globally disable in
+  your gitconfig 'git config http.sslVerify false', or globally by adding a
+  '--global' flag to the previous commit (writes your ~/.gitconfig file).
 
 Example
 -------
