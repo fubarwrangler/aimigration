@@ -1,0 +1,12 @@
+ifdef::env-github[:outfilesuffix: .adoc]
+
+Backend Setup
+=============
+
+This doc will cover the configuration of the backend-services, especially
+what is in common between them and the base-configuration.
+
+Service-Base Configuration
+--------------------------
+
+The backends share the hg_voatlasmisc::servicebase code. This makes

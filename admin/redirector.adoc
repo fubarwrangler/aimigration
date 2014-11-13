@@ -1,0 +1,74 @@
+ifdef::env-github[:outfilesuffix: .adoc]
+
+Redirector Setup
+================
+
+This doc will cover the configuration of the web redirectors themselves
+
+Redirector Architecture
+-----------------------
+
+There are currently 3 production redirectors:
+
+. _aiatlas-webredirector_
+. _aiatlas090_
+. _aiatlas091_
+
+(don't ask about the first name!) and 1 test redirector:
+
+. _atlas-test-redir_
+
+The test redirector is only accessible from within CERN while the other ones
+have firewall conduits for 80/443 that *need to be maintained yearly*.
+
+
+Future Load Balancing
+~~~~~~~~~~~~~~~~~~~~~
+
+Ideally, the redirector would be a load-balanced cluster where the first name
+would be the entry-point. Each _aiatlas09X_ redirector would be in the cluster.
+
+There are two problems with this approach that I don't know how to solve right
+now.
+
+1. There is a limit of 255 characters for the list of aliases given to a node
+   in DNS. The totality of CNAME aliases needed for the various backends is far
+   larger than 255 characters, hence the 3 redirectors.
+   +
+   +
+   We would need a way to manage a much larger number of CNAME aliases that
+   resolve to the DNS name of the load-balancer.
+
+2. Shibboleth sessions are stored by default in-memory per-redirector. This
+   means that if you were to resolve a different redirector from the alias
+   you'd be required to re-auth. The easiest way I see to solve this is to use
+   a database-backed
+   https://itservices.stanford.edu/service/shibboleth/sp/sharedsession[shared
+   session cache]. However this would introduce another dependency (the db) and
+   a possible single-point-of-failure.
+
+Shibboleth Setup
+~~~~~~~~~~~~~~~~
+
+As covered *HERE*, the puppet-environments we use use
+https://git.cern.ch/web/it-puppet-module-shibboleth.git/shortlog/refs/heads/wstrecke_shib[
+the 'wstrecke_shib' branch] of the shibboleth module, which enables
+multiple-services in one shibboleth instance. This branch should probably get
+pushed upstream someday...
+
+The shibboleth module uses a hash in hiera called 'shibboleth_multi_service'
+that maps SSO-Id to SSO-host, like:
+
+----
+shibboleth_multi_service:
+    atlas-migration-example:  "atlas-example.cern.ch"
+    atlas-trig-cost:          "atlas-trig-cost.cern.ch
+----
+
+Where +atlas-migration-example+ is the registered SSO Application-id and
++"atlas-example.cern.ch"+ is the service-name.
+
+See https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/data/hostgroup/voatlasmisc/redirector/web.yaml[
+redirector/web.yaml] in the voatlasmsic repo for the configuration.
+
+

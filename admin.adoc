@@ -1,0 +1,15 @@
+ifdef::env-github[:outfilesuffix: .adoc]
+
+Web Redirector Admin Guide
+==========================
+
+The web architecture is best explained by a picture:
+
+image:pics/architecture.png[Redirector Architecture]
+
+
+Sections
+--------
+
+. link:admin/redirector{outfilesuffix}[Web Redirectors]
+. link:admin/backends{outfilesuffix}[Backend Services]
