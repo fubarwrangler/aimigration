@@ -9,4 +9,29 @@ what is in common between them and the base-configuration.
 Service-Base Configuration
 --------------------------
 
-The backends share the hg_voatlasmisc::servicebase code. This makes
+The backends share the hg_voatlasmisc::servicebase code.
+
+
+
+Data Volume Management
+----------------------
+
+Many services have a '/data' volume (and one or two have /var/lib/mysql volumes)
+that is a separate filesystem (a cinder volume in OpenStack). This volume
+is attached to the production instance of the services, while the other
+instances have just a '/data' folder.
+
+This volume must be attached with 'nova volume-attach', but the mounting of
+the filesystem and the '/etc/fstab' entry is managed in puppet. There is a
+parameter in Foreman called "web_instacne_type" that when set to the value
+"prod", instructs the filesystem to be mounted there and an '/etc/fstab' entry
+to be created.
+
+*WARNING*: If this parameter is removed, absent, or changed from "prod", and
+there is a data-volume mounted there, it will be unmounted and removed from
+'/etc/fstab'.
+
+The code to manage this is in https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase/mount_point.pp[
+servicebase/mount_point.pp] in voatlasmisc. For an example of how to use it
+see the usage in https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/atlasdcs.pp[
+atlasdcs.pp].
