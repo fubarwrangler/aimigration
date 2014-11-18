@@ -10,7 +10,8 @@ Service-Base Configuration
 --------------------------
 
 The backends share the https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase.pp[
-hg_voatlasmisc::servicebase] code in servicebase.pp.
+hg_voatlasmisc::servicebase] code in servicebase.pp. This code ensures the basics
+are there, like AFS, apache, any sudoers access, and firewall rules.
 
 
 Access Control Hierarchy
@@ -123,4 +124,9 @@ a deployment method, not as a place to develop from.
 
 
 
+Backend TODO
+------------
 
+. Enable the firewall to only open ports 80/443 to the redirectors
+  For this to work well we need puppetdbquery() to work or we need to use
+  exported resoruces (possibly?), neither of which is the case now.
