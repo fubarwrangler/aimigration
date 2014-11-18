@@ -45,6 +45,24 @@ if +sssd::interactiveallowgroups+ is defined)
 |==========================
 
 
+Apache Settings
+---------------
+
+Each backend has their own web-configuration needs, which are reflected in the
+various vhost configurations in the backend code. We use the upstream puppetlabs-
+apache module that is quite powerful and flexible. See the code for various
+examples of the +apache::vhost+ directive ranging from
+https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/trig_cost.pp[
+quite simple] to https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/larmon.pp[
+a bit more complex].
+
+One setting common to all is the fragment +LimitRequestFieldSize 262144+ which
+allows much larger headers to be passed from the redirector. This is needed
+because the EGroups field that gets filled out by Shibboleth can be very large
+and there is a limit of 8Kb http://httpd.apache.org/docs/2.2/mod/core.html#limitrequestfieldsize[
+by default] on the size of a single header from apache.
+
+
 Data Volume Management
 ----------------------
 
@@ -108,6 +126,17 @@ required the use of a custom setuid-wrapper that checked out the files as root.
 The blank repo is created by puppet when the machine is built, again visible in the
 servicebase/gitdeploy.pp class (the +git init --bare+ Exec[] resource)
 
+
+Apache Config
+^^^^^^^^^^^^^
+
+The git-deployment is managed throught a separate apache virtual host on the
+backend (port 8443) that is mapped through the /git URLs on the redirector (see
+link:redirector{outfilesuffix}#git-url[this section] of the redirector docs.
+This vhost uses CERN Kerberos auth to allow the user command-line authentication
+needed by git (SSO wouldn't work).
+
+
 Update Hook
 ^^^^^^^^^^^
 
@@ -127,6 +156,6 @@ a deployment method, not as a place to develop from.
 Backend TODO
 ------------
 
-. Enable the firewall to only open ports 80/443 to the redirectors
+. Enable the firewall to only open ports 80/443/8443 to the redirectors
   For this to work well we need puppetdbquery() to work or we need to use
   exported resoruces (possibly?), neither of which is the case now.

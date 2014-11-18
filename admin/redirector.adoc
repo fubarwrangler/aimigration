@@ -46,15 +46,29 @@ hosts with different SSL certs on the same IP/Port requires clients to support
 https://en.wikipedia.org/wiki/Server_Name_Indication[SNI], which has been
 standard for over 10 years now, so only Windows XP clients are excluded.
 
+
 Instances
 ~~~~~~~~~
 
-These are not
+The redirector has ope or more virtual hosts for each instance of each service.
+A standard SSL-encrypted services has one virtual host on port 80 that just
+redirects to the https instance on port 443. The puppet code for these instances
+can be https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/redirector/instance.pp[
+found here] -- see the comments at the top for the various knobs available.
 
 Git URL
 ^^^^^^^
 
-temp
+If Git-deployment is used, the https-instance of the site will proxy the /git
+URL to a link:backends{outfilesuffix}#apache-config[different backend vhost].
+
+This URL has no SSO-auth on the redirector even if SSO is used, as it is
+handled by the puppet-created virtual-host config on the backend (using CERN
+Kerberos auth).
+
+Even if the site is http-only the git-URL will be proxied through https because
+the username/password is given with the kerberos-auth used on the backend.
+
 
 Shibboleth Setup
 ----------------
@@ -79,6 +93,11 @@ Where +atlas-migration-example+ is the registered SSO Application-id and
 
 See https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/data/hostgroup/voatlasmisc/redirector/web.yaml[
 redirector/web.yaml] in the voatlasmsic repo for the configuration.
+
+The apache configuration if using SSO contains the setting 'LimitRequestFieldSize
+262144' which is required since the EGroups header can be larger than the
+default of 8Kb.
+
 
 
 
