@@ -9,29 +9,62 @@ what is in common between them and the base-configuration.
 Service-Base Configuration
 --------------------------
 
-The backends share the hg_voatlasmisc::servicebase code.
+The backends share the https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase.pp[
+hg_voatlasmisc::servicebase] code in servicebase.pp.
 
+
+Access Control Hierarchy
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Access control is done through many methods of
 
 
 Data Volume Management
 ----------------------
 
-Many services have a '/data' volume (and one or two have /var/lib/mysql volumes)
+Many services have a +/data+ volume (and one or two have /var/lib/mysql volumes)
 that is a separate filesystem (a cinder volume in OpenStack). This volume
 is attached to the production instance of the services, while the other
-instances have just a '/data' folder.
+instances have just a +/data+ folder.
 
-This volume must be attached with 'nova volume-attach', but the mounting of
-the filesystem and the '/etc/fstab' entry is managed in puppet. There is a
+This volume must be attached with +nova volume-attach+, but the mounting of
+the filesystem and the +/etc/fstab+ entry is managed in puppet. There is a
 parameter in Foreman called "web_instacne_type" that when set to the value
-"prod", instructs the filesystem to be mounted there and an '/etc/fstab' entry
+"prod", instructs the filesystem to be mounted there and an +/etc/fstab+ entry
 to be created.
 
 *WARNING*: If this parameter is removed, absent, or changed from "prod", and
 there is a data-volume mounted there, it will be unmounted and removed from
-'/etc/fstab'.
++/etc/fstab+ (actually, +umount+ will be run, but if there are open files on
+the device it will fail and require manual intervention).
 
 The code to manage this is in https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase/mount_point.pp[
 servicebase/mount_point.pp] in voatlasmisc. For an example of how to use it
 see the usage in https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/atlasdcs.pp[
 atlasdcs.pp].
+
+Creating a volume is done through the +cinder+ command, and attaching is done
+with +nova+. When moving a volume from one machine to another, all unmounting
+operations should be complete (if triggered by puppet or by hand) before
+detaching the volume to avoid corruption.
+
+Deployment Methods
+------------------
+
+Deploying to the backend is done with either git or by hand (or RPMs, but nobody
+so far has chosen to do so). To enable RPM deployed sites in puppet it is simply
+a matter of putting the yum-repo where the site code is in place on the
+backends and ensuring the package is set to latest.
+
+Using git-deployment has been a popular option. Each instance of each service
+gets a git-URL in it's namespace. This is by default <service-name>/git/<repo-name>,
+like 'https://atlas-larmon.cern.ch/git/larmon'. The redirector configuration for
+this setup is discussed  link:redirector{outfilesuffix}[here].
+
+Git deployment in puppet is taken care of on the backend by including the
+https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase/gitdeploy.pp[
+servicebase/gitdeploy.pp] class. The following two parameters are frequently
+set:
+
+. +reponame+, the name of the git-repo in the URL
+
