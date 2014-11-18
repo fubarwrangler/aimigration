@@ -114,7 +114,6 @@ now.
    in DNS. The totality of CNAME aliases needed for the various backends is far
    larger than 255 characters, hence the 3 redirectors.
    +
-   +
    We would need a way to manage a much larger number of CNAME aliases that
    resolve to the DNS name of the load-balancer.
 
