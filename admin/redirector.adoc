@@ -59,7 +59,7 @@ temp
 Shibboleth Setup
 ----------------
 
-As covered link:admin{outfilesuffix}[here], the puppet-environments we use use
+As covered link:../admin{outfilesuffix}#puppet-architecture[here], the puppet-environments we use use
 https://git.cern.ch/web/it-puppet-module-shibboleth.git/shortlog/refs/heads/wstrecke_shib[
 the +wstrecke_shib+ branch] of the shibboleth module, which enables
 multiple-services in one shibboleth instance. This branch should probably get

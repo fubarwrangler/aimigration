@@ -16,7 +16,32 @@ hg_voatlasmisc::servicebase] code in servicebase.pp.
 Access Control Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Access control is done through many methods of
+Access control is done with several hiera variables. First and foremost, for staff,
+adc-central-services can log in as root (via +rootegroups+ in hera) and
+interactively (via +sssd::interactiveallowgroups+). Furthermore, the people in
+https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/base/vomisc.pp[
+base/vomisc.pp] have sudo access.
+
+The users are given login access either through an egroup or by listing their
+usernames in hiera (under +sssd::interactiveallow*+). The set of people allowed
+to 'sudo' to root is the +servicebase::sudo+ variable, with a default of those
+named in +sssd::interactiveallowusers+.
+
+If git-deployment is used, the list of people allowed to push to the site-code
+git-repo are those set in the +servicebase::gitusers+ variable, with a default
+of those allowed to 'sudo' (see above pararaph).
+
+As a summary, see this table:
+
+.Granting User Permissions
+[width="50%",cols=">s,^2m,^2e",frame="topbot",options="header"]
+|==========================
+|Access Type | Variable  | Fallback (default)
+|Login       | sssd::interactiveallowusers  | None (membership in egroup
+if +sssd::interactiveallowgroups+ is defined)
+|Sudo        | servicebase::sudo  | +sssd::interactiveallowusers+
+|Git         | servicebase::gitusers  | Those with Sudo access
+|==========================
 
 
 Data Volume Management
@@ -59,12 +84,43 @@ backends and ensuring the package is set to latest.
 Using git-deployment has been a popular option. Each instance of each service
 gets a git-URL in it's namespace. This is by default <service-name>/git/<repo-name>,
 like 'https://atlas-larmon.cern.ch/git/larmon'. The redirector configuration for
-this setup is discussed  link:redirector{outfilesuffix}[here].
+this setup is discussed  link:redirector{outfilesuffix}#git-url[here].
 
 Git deployment in puppet is taken care of on the backend by including the
 https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/servicebase/gitdeploy.pp[
 servicebase/gitdeploy.pp] class. The following two parameters are frequently
 set:
 
-. +reponame+, the name of the git-repo in the URL
+. +reponame+, the name of the git-repo in the URL after the '/git/' portion (often named after the service)
+. +deploydir+, the folder to be managed by git (often the docroot of the site)
+
+Git Management Detail
+~~~~~~~~~~~~~~~~~~~~~
+
+For git-managed sites the docroot of the site must be owned by apache since
+this directory is managed by the
+https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/templates/servicebase/gitdeploy_update.erb[
+git update hook] (run by apache).
+There is a mild security implication here, but any other option would have
+required the use of a custom setuid-wrapper that checked out the files as root.
+
+The blank repo is created by puppet when the machine is built, again visible in the
+servicebase/gitdeploy.pp class (the +git init --bare+ Exec[] resource)
+
+Update Hook
+^^^^^^^^^^^
+
+The actual deployment is done via the https://www.kernel.org/pub/software/scm/git/docs/githooks.html#update[
+'update' hook] on the backend's git repo. The update hook runs git force-checkout
+in the web application's document-root. *WARNING*: for this reason, the site
+should not store any dynamic data under the docroot, as it will be wiped out
+by a subsequent git-push.
+
+This hook also blocks the creation and deletion of branches other than master,
+which is to discourage using these repos as a ``upstream'' source for the
+site's code. This is because it is not backed up and should only be used as
+a deployment method, not as a place to develop from.
+
+
+
 
