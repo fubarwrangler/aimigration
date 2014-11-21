@@ -106,6 +106,7 @@ puppet.
 
 On the integration / test instance you will be able to log in and make changes
 but puppet will be running and hopefully your application will mostly be
+//CompleteME
 
 
 The idea is to proceed in the migration as follows:

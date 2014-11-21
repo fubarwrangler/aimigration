@@ -73,7 +73,7 @@ password is optional. For example I would use
 +https://wstrecke@example.cern.ch/git/+ as a repository URL.
 
 The second thing is that it appears that CERN certs are not trusted by
-lubcurl/nss/openssl by default. Have
+libcurl/nss/openssl by default. Have
 http://stackoverflow.com/a/11622001[a look here] for various ways to disable
 SSL Certificate checking in git.
 

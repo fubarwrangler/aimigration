@@ -40,7 +40,7 @@ Deployment
 . List the hardware requirements for your service
 
 ** CPUS / Memory?
-** Disk space, any larger data filesystems / volumes neded?
+** Disk space, any larger data filesystems / volumes needed?
 
 Migration
 ~~~~~~~~~

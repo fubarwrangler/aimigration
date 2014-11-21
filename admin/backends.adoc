@@ -18,7 +18,7 @@ Access Control Hierarchy
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Access control is done with several hiera variables. First and foremost, for staff,
-adc-central-services can log in as root (via +rootegroups+ in hera) and
+adc-central-services can log in as root (via +rootegroups+ in hiera) and
 interactively (via +sssd::interactiveallowgroups+). Furthermore, the people in
 https://git.cern.ch/web/it-puppet-hostgroup-voatlasmisc.git/blob/refs/heads/ai_prod:/code/manifests/base/vomisc.pp[
 base/vomisc.pp] have sudo access.
@@ -30,7 +30,7 @@ named in +sssd::interactiveallowusers+.
 
 If git-deployment is used, the list of people allowed to push to the site-code
 git-repo are those set in the +servicebase::gitusers+ variable, with a default
-of those allowed to 'sudo' (see above pararaph).
+of those allowed to 'sudo' (see above paragraph).
 
 As a summary, see this table:
 
@@ -73,7 +73,7 @@ instances have just a +/data+ folder.
 
 This volume must be attached with +nova volume-attach+, but the mounting of
 the filesystem and the +/etc/fstab+ entry is managed in puppet. There is a
-parameter in Foreman called "web_instacne_type" that when set to the value
+parameter in Foreman called "web_instance_type" that when set to the value
 "prod", instructs the filesystem to be mounted there and an +/etc/fstab+ entry
 to be created.
 
@@ -130,7 +130,7 @@ servicebase/gitdeploy.pp class (the +git init --bare+ Exec[] resource)
 Apache Config
 ^^^^^^^^^^^^^
 
-The git-deployment is managed throught a separate apache virtual host on the
+The git-deployment is managed through a separate apache virtual host on the
 backend (port 8443) that is mapped through the /git URLs on the redirector (see
 link:redirector{outfilesuffix}#git-url[this section] of the redirector docs.
 This vhost uses CERN Kerberos auth to allow the user command-line authentication
@@ -158,4 +158,4 @@ Backend TODO
 
 . Enable the firewall to only open ports 80/443/8443 to the redirectors
   For this to work well we need puppetdbquery() to work or we need to use
-  exported resoruces (possibly?), neither of which is the case now.
+  exported resources (possibly?), neither of which is the case now.
